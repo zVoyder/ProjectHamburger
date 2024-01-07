@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23c1a0601ef5c84d970a0256acb4dc5, type: 3}
+  m_Name: enNapoleonDialogueGraph
+  m_EditorClassIdentifier: 
+  FileName: enNapoleonDialogue
+  Groups: []
+  Nodes:
+  - NodeID: 379772f9-7cfb-4b89-a28d-1de77e523bcf
+    GroupID: 
+    Position: {x: 851, y: 272}
+    Name: 2
+    DialogueText: I need your help! It's... very important!
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: d9ae5c45-e5c9-41c2-8948-bb8e2ea79576
+  - NodeID: d9ae5c45-e5c9-41c2-8948-bb8e2ea79576
+    GroupID: 
+    Position: {x: 1382, y: 272}
+    Name: 3
+    DialogueText: ...I... Napoleon... I've... I've lost some things...
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: b1872da7-14bd-4543-81ae-b22bc16ca9e7
+  - NodeID: 7eb29558-4c76-48f9-884c-1a51037665dc
+    GroupID: 
+    Position: {x: 336, y: 272}
+    Name: 1
+    DialogueText: Hey, you there! Wait, wait!
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 8300000, guid: eeaf68cd258daf54e8034d550289bef4, type: 3}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: 379772f9-7cfb-4b89-a28d-1de77e523bcf
+  - NodeID: 55d79e7f-d8bd-463b-958d-9abbd68a27c4
+    GroupID: 
+    Position: {x: 2354, y: 272}
+    Name: 5
+    DialogueText: ...but one day... one day they were about to discover me, and in
+      a hurry, I forgot some things in some paintings...
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: 06063996-dd64-46da-a008-1ef8d76f333b
+  - NodeID: 06063996-dd64-46da-a008-1ef8d76f333b
+    GroupID: 
+    Position: {x: 2774, y: 272}
+    Name: 6
+    DialogueText: What was I doing inside paintings? It's complicated...
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: 48210e0a-b423-48e5-b1d5-f1a146e788a8
+  - NodeID: 48210e0a-b423-48e5-b1d5-f1a146e788a8
+    GroupID: 
+    Position: {x: 3201, y: 272}
+    Name: 7
+    DialogueText: ...But please help me, in return... I'll give you these 'Brera
+      Points' I found during my explorations among the artworks here.
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: b29e2ba2-ad6e-4728-a27d-ac3e3d524617
+  - NodeID: b29e2ba2-ad6e-4728-a27d-ac3e3d524617
+    GroupID: 
+    Position: {x: 3624, y: 272}
+    Name: 8
+    DialogueText: Let's see... the last time I was near some paintings of...
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: ffb1e854-44b8-4769-abd5-0d770a71c32b
+  - NodeID: b1872da7-14bd-4543-81ae-b22bc16ca9e7
+    GroupID: 
+    Position: {x: 1927, y: 272}
+    Name: 4
+    DialogueText: At night, when there's no one around and the lights go out, I like
+      to wander through the rooms of this place where they've trapped me...
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 0}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: 55d79e7f-d8bd-463b-958d-9abbd68a27c4
+  - NodeID: ffb1e854-44b8-4769-abd5-0d770a71c32b
+    GroupID: 
+    Position: {x: 4023, y: 272}
+    Name: 9
+    DialogueText: ...Still Life..
+    ActorData: {fileID: 0}
+    DialogueAudioClip: {fileID: 8300000, guid: 10595d20f5c69f94cbcde0972e368ddc, type: 3}
+    DialogueType: 0
+    Choices:
+    - Text: Next Dialogue
+      NodeID: 
+  OldGroupNames: []
+  OldUngroupedNodeNames:
+  - 2
+  - 3
+  - 1
+  - 5
+  - 6
+  - 7
+  - 8
+  - 4
+  - 9
+  OldGroupedNodeNames:
+    _dictionary: []
