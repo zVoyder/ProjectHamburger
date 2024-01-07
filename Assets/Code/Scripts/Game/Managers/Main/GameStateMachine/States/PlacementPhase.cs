@@ -2,10 +2,11 @@ namespace ProjectH.Managers.Main.GameStateMachine.States
 {
     using System;
     using VUDK.Patterns.StateMachine;
+    using VUDK.Extensions;
+    using VUDK.Features.Main.EventSystem;
     using ProjectH.Managers.Main.GameStateMachine.Contexts;
     using ProjectH.Managers.Main.GameStateMachine.States.StateKeys;
-    using UnityEngine;
-    using VUDK.Extensions;
+    using ProjectH.Constants;
 
     public class PlacementPhase : State<GameContext>
     {
@@ -18,7 +19,8 @@ namespace ProjectH.Managers.Main.GameStateMachine.States
 #if UNITY_EDITOR
             DebugExtension.Advise(nameof(PlacementPhase));
 #endif
-            Context.GameGrid.FillGrid();
+            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnGameBegin);
+            Context.GameGrid.Init(Context.LevelManager.GetCurrentLevelData());
             ChangeState(GamePhaseKey.InputPhase);
         }
 

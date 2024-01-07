@@ -1,6 +1,7 @@
 ﻿namespace ProjectH.Patterns.Factories
 {
     using ProjectH.Features.Grid;
+    using ProjectH.Features.Levels;
     using ProjectH.Managers.Main;
     using ProjectH.Managers.Main.GameStateMachine.Contexts;
     using ProjectH.Managers.Main.GameStateMachine.States;
@@ -18,10 +19,12 @@
         /// </summary>
         /// <param name="gameGrid">The game grid.</param>
         /// <param name="mobileInputsManager">The mobile inputs manager.</param>
+        /// <param name="levelManager">The level manager.</param>
+        /// <param name="uiManager">The UI manager.</param>
         /// <returns>A new game context.</returns>
-        public static GameContext CreateGameContext(GameGrid gameGrid, MobileInputsManager mobileInputsManager)
+        public static GameContext CreateGameContext(GameGrid gameGrid, MobileInputsManager mobileInputsManager, LevelManager levelManager, UIManager uiManager)
         {
-            return new GameContext(gameGrid, mobileInputsManager);
+            return new GameContext(gameGrid, mobileInputsManager, levelManager, uiManager);
         }
 
         public static T CreateGamePhase<T>(GamePhaseKey phaseKey, StateMachine relatedStateMachine, StateContext context) where T : State<GameContext>

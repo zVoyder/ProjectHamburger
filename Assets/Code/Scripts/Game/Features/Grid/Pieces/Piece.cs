@@ -11,9 +11,9 @@
         [field: SerializeField]
         public PieceType PieceType { get; private set; }
 
-        public GameGridTile CurrentTile { get; private set; }
-
         private PieceGraphicsController _graphicsController;
+
+        public GameGridTile CurrentTile { get; private set; }
 
         private void Awake()
         {
@@ -35,6 +35,12 @@
         public void CantMove(Vector2Direction direction)
         {
             _graphicsController.PlayCantMove(direction);
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            transform.ResetTransform(false);
         }
     }
 }

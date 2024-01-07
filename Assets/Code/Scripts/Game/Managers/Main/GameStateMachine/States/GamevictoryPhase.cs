@@ -3,7 +3,9 @@
     using System;
     using VUDK.Patterns.StateMachine;
     using VUDK.Extensions;
+    using VUDK.Features.Main.EventSystem;
     using ProjectH.Managers.Main.GameStateMachine.Contexts;
+    using ProjectH.Constants;
 
     public class GamevictoryPhase : State<GameContext>
     {
@@ -16,6 +18,7 @@
 #if UNITY_EDITOR
             DebugExtension.Advise(nameof(GamevictoryPhase));
 #endif
+            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnGameVictory);
         }
 
         public override void Exit()

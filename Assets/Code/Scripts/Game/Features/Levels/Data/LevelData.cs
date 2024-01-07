@@ -3,7 +3,7 @@
     using UnityEngine;
     using ProjectH.Features.Grid.Pieces.Keys;
 
-    [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level")]
+    [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Levels/Level")]
     public class LevelData : ScriptableObject
     {
         [Min(2)]

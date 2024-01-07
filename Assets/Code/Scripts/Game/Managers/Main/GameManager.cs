@@ -6,43 +6,45 @@
     using VUDK.Features.Main.InputSystem.MobileInputs;
     using ProjectH.Features.Grid;
     using ProjectH.Managers.Main.GameStateMachine;
-    using ProjectH.Features.Levels.Data;
-    using ProjectH.Features.Levels;
     using ProjectH.Features.Moves;
+    using ProjectH.Features.Levels;
+    using ProjectH.Features.Victory;
 
     public class GameManager : GameManagerBase, IInit
     {
+        [field: SerializeField, Header("Level Manager")]
+        public LevelManager LevelManager { get; private set; }
+
+        [field: SerializeField, Header("Level Controller")]
+        public LevelController LevelController { get; private set; }
+
         [field: SerializeField, Header("Game Grid")]
         public GameGrid GameGrid { get; private set; }
 
         [field: SerializeField, Header("Animation Controller")]
-        public AnimationController AnimationController { get; private set; }
+        public PiecesMoveAnimationController AnimationController { get; private set; }
+
+        [field: SerializeField, Header("Victory Animation Controller")]
+        public VictoryAnimationController VictoryAnimationController { get; private set; }
 
         [field: SerializeField, Header("Game Machine")]
         public GameMachine GameMachine { get; private set; }
 
-#if UNITY_EDITOR
-        public LevelData LevelToSelect;
-#endif
-
         private void Start()
         {
-#if UNITY_EDITOR
-            LevelManager.SelectLevel(LevelToSelect);
-#endif
-            Init(); // TODO: Change this on input start game
+            Init();
         }
 
         public void Init()
         {
-            if(!Check())
+            if (!Check())
             {
                 Debug.LogError("GameManager: Init failed. Check if all dependencies are set.");
                 return;
             }
 
-            GameGrid.Init(LevelManager.SelectedLevel);
-            GameMachine.Init(GameGrid, MobileInputsManager.Ins);
+            LevelController.Init(this);
+            GameMachine.Init(GameGrid, MobileInputsManager.Ins, LevelManager);
         }
 
         public bool Check()

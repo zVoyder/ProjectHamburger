@@ -24,6 +24,7 @@
         private FadeType _fadeStart = FadeType.None;
 
         private float _alpha = 0f;
+        private bool _isFading;
 
         public event Action OnFadeInStart;
         public event Action OnFadeInEnd;
@@ -149,7 +150,10 @@
         /// <param name="time">time in seconds.</param>
         private IEnumerator FadeOutRoutine(float time)
         {
+            if (_isFading) yield break;
+
             OnFadeOutStart?.Invoke();
+            _isFading = true;
 
             float startAlpha = 1f; // Alpha is 1 so the FadeOut start with a DrawTexture already fully visible
             float progress = 0f;
@@ -162,6 +166,7 @@
                 yield return null;
             }
 
+            _isFading = false;
             OnFadeOutEnd?.Invoke();
         }
 
@@ -171,7 +176,10 @@
         /// <param name="time">time in seconds.</param>
         private IEnumerator FadeInRoutine(float time)
         {
+            if (_isFading) yield break;
+
             OnFadeInStart?.Invoke();
+            _isFading = true;
 
             float startAlpha = 0f; // Alpha is 0 because the FadeIn start with a DrawTexture invisible
             float progress = 0f;
@@ -183,6 +191,7 @@
                 yield return null;
             }
 
+            _isFading = false;
             OnFadeInEnd?.Invoke();
         }
 

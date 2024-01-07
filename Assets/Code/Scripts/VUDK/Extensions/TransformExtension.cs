@@ -41,8 +41,8 @@
         /// </summary>
         public static void ResetTransform(this Transform transform, bool resetScale = true)
         {
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
 
             if (resetScale)
                 transform.localScale = Vector3.one;

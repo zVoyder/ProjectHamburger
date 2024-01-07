@@ -11,7 +11,7 @@
     {
         private static GameManager s_gameManager => MainManager.Ins.GameManager as GameManager;
         private static GameGridTile[,] s_gridTiles => s_gameManager.GameGrid.GridTiles;
-        private static AnimationController s_animController => s_gameManager.AnimationController;
+        private static PiecesMoveAnimationController s_animController => s_gameManager.AnimationController;
 
         public static void InsertStackInTile(List<Piece> oldStack, GameGridTile oldTile, GameGridTile newTile)
         {

@@ -1,18 +1,23 @@
 ﻿namespace ProjectH.Features.Moves.Undo
 {
-    using ProjectH.Constants;
-    using ProjectH.Managers.Main;
-    using ProjectH.Managers.Main.GameStateMachine.States.StateKeys;
     using System.Collections.Generic;
     using VUDK.Features.Main.EventSystem;
     using VUDK.Generic.Managers.Main;
+    using ProjectH.Constants;
+    using ProjectH.Managers.Main;
+    using ProjectH.Managers.Main.GameStateMachine.States.StateKeys;
 
     public static class UndoController
     {
         private static GameManager s_gameManager => MainManager.Ins.GameManager as GameManager;
-        private static AnimationController s_animController => s_gameManager.AnimationController;
+        private static PiecesMoveAnimationController s_animController => s_gameManager.AnimationController;
 
         private static readonly Stack<UndoMove> s_undoMoves = new Stack<UndoMove>();
+
+        static UndoController()
+        {
+            EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameBegin, Clear);
+        }
 
         public static void AddUndoMove(UndoMove undoMove)
         {

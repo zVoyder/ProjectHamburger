@@ -55,7 +55,7 @@
 
         private void SelectPiece(InputAction.CallbackContext context)
         {
-            if (MobileInputsUtility.IsTouchOn(out Piece piece, 10f, ~0) && !_selectedPiece)
+            if (!_selectedPiece && !Context.UIManager.IsOnMenu && MobileInputsUtility.IsTouchOn(out Piece piece, 10f, ~0))
                 _selectedPiece = piece.CurrentTile.BottomPiece;
             else
                 _selectedPiece = null;

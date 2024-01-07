@@ -4,22 +4,33 @@
     using UnityEngine.UI;
     using VUDK.Generic.Structures.Grid;
     using VUDK.Patterns.Initialization.Interfaces;
+    using VUDK.Generic.Managers.Main.Interfaces;
     using VUDK.Generic.Managers.Main;
     using ProjectH.Features.Grid.Tiles;
     using ProjectH.Features.Levels.Data;
     using ProjectH.Features.Grid.Pieces;
     using ProjectH.Features.Grid.Pieces.Keys;
+    using ProjectH.Patterns.Factories;
+    using ProjectH.Managers.Main;
 
-    public class GameGrid : LayoutGrid<GameGridTile>, IInit<LevelData>
+    public class GameGrid : LayoutGrid<GameGridTile>, IInit<LevelData>, ICastGameManager<GameManager>
     {
         private LevelData _levelData;
 
+        public GameManager GameManager => MainManager.Ins.GameManager as GameManager;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            SetGridLayoutGroup();
+        }
+
         public void Init(LevelData levelData)
         {
-            SetGridLayoutGroup();
             _levelData = levelData;
             SetSize(levelData.LevelGridSize.x, levelData.LevelGridSize.y);
             Init();
+            FillGrid();
         }
 
         public override void FillGrid()
@@ -33,11 +44,9 @@
 
                     if (pieceKey == null) continue;
 
-                    if (MainManager.Ins.PoolsManager.Pools[pieceKey].Get().TryGetComponent(out Piece piece))
-                    {
-                        piece.SetTile(GridTiles[x, y]);
-                        GridTiles[x, y].Insert(piece);
-                    }
+                    Piece piece = GameFactory.Create(pieceKey, GameManager.LevelManager);
+                    piece.SetTile(GridTiles[x, y]);
+                    GridTiles[x, y].Insert(piece);
                 }
             }
         }

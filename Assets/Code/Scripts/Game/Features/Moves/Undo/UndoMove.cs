@@ -17,6 +17,7 @@
         {
             UndoPiece = undoPiece;
             OldStack = new List<Piece>(oldStack);
+            OldStack.Reverse();
             TargetTile = targetTile;
             RotationPoint = rotationPoint;
             AxisDirection = axisDirection;

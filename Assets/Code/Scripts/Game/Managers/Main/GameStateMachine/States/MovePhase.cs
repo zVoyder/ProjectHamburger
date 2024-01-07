@@ -37,7 +37,7 @@
 
         private void OnMoveCompleted()
         {
-            ChangeState(GamePhaseKey.InputPhase); // TODO: Change to CheckPhase
+            ChangeState(GamePhaseKey.CheckPhase);
         }
     }
 }

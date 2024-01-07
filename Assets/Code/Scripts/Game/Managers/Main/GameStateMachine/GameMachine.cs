@@ -1,22 +1,26 @@
 namespace ProjectH.Managers.Main.GameStateMachine
 {
-    using VUDK.Generic.Managers.Main.Bases;
     using ProjectH.Features.Grid;
     using ProjectH.Managers.Main.GameStateMachine.Contexts;
     using ProjectH.Managers.Main.GameStateMachine.States;
     using ProjectH.Managers.Main.GameStateMachine.States.StateKeys;
     using ProjectH.Patterns.Factories;
+    using ProjectH.Features.Levels;
+    using VUDK.Generic.Managers.Main.Bases;
     using VUDK.Patterns.Initialization.Interfaces;
     using VUDK.Features.Main.InputSystem.MobileInputs;
-    using ProjectH.Managers.Main;
+    using VUDK.Generic.Managers.Main;
+    using VUDK.Generic.Managers.Main.Interfaces;
 
-    public class GameMachine : GameMachineBase, IInit<GameGrid, MobileInputsManager>
+    public class GameMachine : GameMachineBase, IInit<GameGrid, MobileInputsManager, LevelManager>, ICastUIManager<UIManager>
     {
         private GameContext _context;
 
-        public void Init(GameGrid grid, MobileInputsManager mobileInputs)
+        public UIManager UIManager => MainManager.Ins.UIManager as UIManager;
+
+        public void Init(GameGrid grid, MobileInputsManager mobileInputs, LevelManager levelManager)
         {
-            _context = MachineFactory.CreateGameContext(grid, mobileInputs);
+            _context = MachineFactory.CreateGameContext(grid, mobileInputs, levelManager, UIManager);
             Init();
         }
 
