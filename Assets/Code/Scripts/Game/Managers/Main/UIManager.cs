@@ -30,7 +30,6 @@
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnEatPhase, EnableLevelCompletedPanel);
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameVictory, DisableBottomInGameMenu);
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameBegin, OnGameBegin);
-            //EventManager.Ins.AddListener(EventKeys.GameEvents.OnEa, DisableLevelCompletedPanel);
         }
 
         private void OnDisable()
@@ -40,26 +39,41 @@
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameBegin, OnGameBegin);
         }
 
+        /// <summary>
+        /// Enables level completed panel.
+        /// </summary>
         private void EnableLevelCompletedPanel()
         {
             _levelCompletedPanel.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Disables level completed panel.
+        /// </summary>
         private void DisableLevelCompletedPanel()
         {
             _levelCompletedPanel.gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// Enables bottom panel in game menu.
+        /// </summary>
         private void EnableBottomInGameMenu()
         {
             _bottomInGameMenu.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Disables bottom panel in game menu.
+        /// </summary>
         private void DisableBottomInGameMenu()
         {
             _bottomInGameMenu.gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// Callback for game begin event.
+        /// </summary>
         private void OnGameBegin()
         {
             EnableBottomInGameMenu();

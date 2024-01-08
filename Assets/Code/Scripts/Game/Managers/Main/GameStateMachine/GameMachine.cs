@@ -18,12 +18,14 @@ namespace ProjectH.Managers.Main.GameStateMachine
 
         public UIManager UIManager => MainManager.Ins.UIManager as UIManager;
 
+        /// <inheritdoc/>
         public void Init(GameGrid grid, MobileInputsManager mobileInputs, LevelManager levelManager)
         {
             _context = MachineFactory.CreateGameContext(grid, mobileInputs, levelManager, UIManager);
             Init();
         }
 
+        /// <inheritdoc/>
         public override void Init()
         {
             base.Init();
@@ -43,6 +45,7 @@ namespace ProjectH.Managers.Main.GameStateMachine
             ChangeState(GamePhaseKey.PlacementPhase);
         }
 
+        /// <inheritdoc/>
         public override bool Check()
         {
             return _context != null;

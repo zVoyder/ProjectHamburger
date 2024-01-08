@@ -41,18 +41,16 @@
         private void OnEnable()
         {
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameVictory, AnimateVictory);
-            EventManager.Ins.AddListener(EventKeys.GameEvents.OnNextLevelTriggered, FadeAndReset);
+            EventManager.Ins.AddListener(EventKeys.GameEvents.OnNextLevelTriggered, StartCameraFade);
             _moveTask.OnTaskCompleted += OnMoveTaskCompleted;
-            //_cameraFade.OnFadeInStart += OnFadeInStart;
             CameraFade.OnFadeInEnd += OnFadeInEnd;
         }
 
         private void OnDisable()
         {
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameVictory, AnimateVictory);
-            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnNextLevelTriggered, FadeAndReset);
+            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnNextLevelTriggered, StartCameraFade);
             _moveTask.OnTaskCompleted -= OnMoveTaskCompleted;
-            //_cameraFade.OnFadeInStart -= OnFadeInStart;
             CameraFade.OnFadeInEnd -= OnFadeInEnd;
         }
 
@@ -65,12 +63,18 @@
             Camera.transform.LookAtLerp(_originalCameraRotation, _target, _moveTask.ElapsedPercentNormalized);
         }
 
+        /// <summary>
+        /// Starts the victory animation.
+        /// </summary>
         private void AnimateVictory()
         {
-            _target = GameManager.LevelManager.CurrentPieces[0].CurrentTile.BottomPiece.transform;
+            _target = GameManager.LevelManager.PiecesOnField[0].CurrentTile.BottomPiece.transform;
             _moveTask.Start();
         }
 
+        /// <summary>
+        /// Callback for move task completed.
+        /// </summary>
         private void OnMoveTaskCompleted()
         {
             _plate.StartRotating();
@@ -78,23 +82,23 @@
             EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhase);
         }
 
-        private void FadeAndReset()
+        /// <summary>
+        /// Starts the camera fade.
+        /// </summary>
+        private void StartCameraFade()
         {
             CameraFade.DoFadeInOut();
         }
 
-        //private void OnFadeInStart()
-        //{
-        //    EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhaseFadeInStart);
-        //}
-
+        /// <summary>
+        /// Callback for fade in end.
+        /// </summary>
         private void OnFadeInEnd()
         {
             _plate.StopRotating();
             _plate.ResetPosition();
             Camera.transform.position = _originalCameraPosition;
             Camera.transform.rotation = _originalCameraRotation;
-            Debug.Log("Triggered OnFadeInEnd");
             EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhaseFadeInEnd);
         }
     }

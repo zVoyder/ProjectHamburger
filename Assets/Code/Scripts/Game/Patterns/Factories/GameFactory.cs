@@ -13,11 +13,17 @@
     /// </summary>
     public static class GameFactory
     {
+        /// <summary>
+        /// Creates a piece by key.
+        /// </summary>
+        /// <param name="pieceKey">Piece key.</param>
+        /// <param name="levelManager">Level manager.</param>
+        /// <returns>Created piece.</returns>
         public static Piece Create(PieceKey pieceKey, LevelManager levelManager)
         {
             if (MainManager.Ins.PoolsManager.Pools[pieceKey].Get().TryGetComponent(out Piece piece))
             {
-                levelManager.AddPiece(piece);
+                levelManager.AddPieceToField(piece);
                 return piece;
             }
 

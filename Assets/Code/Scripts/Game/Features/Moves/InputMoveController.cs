@@ -13,6 +13,13 @@
         private static GameGridTile[,] s_gridTiles => s_gameManager.GameGrid.GridTiles;
         private static PiecesMovesGraphicsController s_animController => s_gameManager.AnimationController;
 
+        /// <summary>
+        /// Insert a list of piece in a new tile stack.
+        /// </summary>
+        /// <param name="oldStack">Old stack to move.</param>
+        /// <param name="piece">Piece to move.</param>
+        /// <param name="oldTile">Old tile.</param>
+        /// <param name="newTile">New tile.</param>
         public static void InsertStackInTile(List<Piece> oldStack, Piece piece, GameGridTile oldTile, GameGridTile newTile)
         {
             List<Piece> reversedStack = new List<Piece>(oldStack);
@@ -26,6 +33,12 @@
             oldTile.RemoveFromStack(reversedStack); // Do not use ClearStack() because it's not correct for Undo
         }
 
+        /// <summary>
+        /// Checks if piece can move in specified direction.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <param name="direction">Direction to move.</param>
+        /// <returns>True if piece can move, False otherwise.</returns>
         public static bool TryMovePiece(Piece piece, Vector2Direction direction)
         {
             if (piece == null) return false;
@@ -45,6 +58,11 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if piece can move right.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <returns>True if piece can move, False otherwise.</returns>
         private static bool TryMoveRight(Piece piece)
         {
             if (piece.CurrentTile.GridPosition.x + 1 >= s_gridTiles.GetLength(0) ||
@@ -60,6 +78,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Checks if piece can move left.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <returns>True if piece can move, False otherwise.</returns>
         private static bool TryMoveLeft(Piece piece)
         {
             if (piece.CurrentTile.GridPosition.x - 1 < 0 ||
@@ -75,6 +98,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Checks if piece can move down.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <returns>True if piece can move, False otherwise.</returns>
         private static bool TryMoveDown(Piece piece)
         {
             if (piece.CurrentTile.GridPosition.y - 1 < 0 ||
@@ -90,6 +118,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Checks if piece can move up.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <returns>True if piece can move, False otherwise.</returns>
         private static bool TryMoveUp(Piece piece)
         {
             if (piece.CurrentTile.GridPosition.y + 1 >= s_gridTiles.GetLength(1) ||

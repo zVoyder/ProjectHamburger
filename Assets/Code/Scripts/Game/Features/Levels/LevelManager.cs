@@ -21,12 +21,12 @@
         public bool IsLoadingLevel => _gameManager.VictoryAnimationController.CameraFade.IsFading;
 
         public int CurrentLevelIndex { get; private set; }
-        public List<Piece> CurrentPieces { get; private set; }
-        public int PiecesCount => CurrentPieces.Count;
+        public List<Piece> PiecesOnField { get; private set; }
+        public int PiecesCount => PiecesOnField.Count;
 
         private void Awake()
         {
-            CurrentPieces = new List<Piece>();
+            PiecesOnField = new List<Piece>();
         }
 
         private void OnEnable()
@@ -39,21 +39,30 @@
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameBegin, ClearPieces);
         }
 
+        /// <inheritdoc/>
         public void Init(GameManager gameManager)
         {
             _gameManager = gameManager;
         }
 
+        /// <inheritdoc/>
         public bool Check()
         {
             return _gameManager != null;
         }
 
+        /// <summary>
+        /// Get current level data.
+        /// </summary>
+        /// <returns> Current level data. </returns>
         public LevelData GetCurrentLevelData()
         {
             return _levelsMapData.Levels[CurrentLevelIndex];
         }
 
+        /// <summary>
+        /// Set current level index to next level.
+        /// </summary>
         public void SetCurrentLevelIndexToNextLevel()
         {
             if (CurrentLevelIndex >= _levelsMapData.Levels.Count - 1)
@@ -65,22 +74,33 @@
             CurrentLevelIndex++;
         }
 
-        public void AddPiece(Piece piece)
+        /// <summary>
+        /// Adds a piece to the pieces on field list.
+        /// </summary>
+        /// <param name="piece"> Piece to add. </param>
+        public void AddPieceToField(Piece piece)
         {
-            CurrentPieces.Add(piece);
+            PiecesOnField.Add(piece);
         }
 
-        public void RemovePiece(Piece piece)
+        /// <summary>
+        /// Removes a piece from the pieces on field list.
+        /// </summary>
+        /// <param name="piece"> Piece to remove. </param>
+        public void RemovePieceFromField(Piece piece)
         {
-            CurrentPieces.Remove(piece);
+            PiecesOnField.Remove(piece);
         }
 
+        /// <summary>
+        /// Clear pieces on field list.
+        /// </summary>
         public void ClearPieces()
         {
-            foreach (Piece piece in CurrentPieces)
+            foreach (Piece piece in PiecesOnField)
                 piece.Dispose();
 
-            CurrentPieces.Clear();
+            PiecesOnField.Clear();
         }
     }
 }

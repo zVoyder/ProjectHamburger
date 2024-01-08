@@ -35,6 +35,7 @@
             Init();
         }
 
+        /// <inheritdoc/>
         public void Init()
         {
             if (!Check())
@@ -48,6 +49,7 @@
             GameMachine.Init(GameGrid, MobileInputsManager.Ins, LevelManager);
         }
 
+        /// <inheritdoc/>
         public bool Check()
         {
             return GameGrid != null && AnimationController != null && GameMachine != null;

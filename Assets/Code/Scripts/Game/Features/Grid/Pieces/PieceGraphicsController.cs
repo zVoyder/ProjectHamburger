@@ -22,16 +22,22 @@
             TryGetComponent(out _anim);
         }
 
+        /// <inheritdoc />
         public void Init(Piece piece)
         {
             _piece = piece;
         }
 
+        /// <inheritdoc />
         public bool Check()
         {
             return _piece != null;
         }
-
+        
+        /// <summary>
+        /// Plays can't move animation.
+        /// </summary>
+        /// <param name="direction">Specified direction.</param>
         public void PlayCantMove(Vector2Direction direction)
         {
             _anim.RefreshAnimator();
@@ -54,31 +60,49 @@
             }
         }
 
+        /// <summary>
+        /// Plays placed animation.
+        /// </summary>
         public void PlayPlacedAnimation()
         {
             _anim.SetTrigger(Constants.PieceAnimations.PlaceTrigger);
         }
 
+        /// <summary>
+        /// Plays stacked effect.
+        /// </summary>
         public void PlayStackedEffect()
         {
             _stackedEffect.Play();
         }
 
+        /// <summary>
+        /// Plays can't move up animation.
+        /// </summary>
         private void PlayCantMoveUp()
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveUp);
         }
 
+        /// <summary>
+        /// Plays can't move right animation.
+        /// </summary>
         private void PlayCantMoveRight()
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveRight);
         }
 
+        /// <summary>
+        /// Plays can't move down animation.
+        /// </summary>
         private void PlayCantMoveDown()
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveDown);
         }
 
+        /// <summary>
+        /// Plays can't move left animation.
+        /// </summary>
         private void PlayCantMoveLeft()
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveLeft);

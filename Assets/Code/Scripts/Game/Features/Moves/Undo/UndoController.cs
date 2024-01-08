@@ -19,11 +19,17 @@
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameBegin, Clear);
         }
 
+        /// <summary>
+        /// Add undo move to stack list.
+        /// </summary>
         public static void AddUndoMove(UndoMove undoMove)
         {
             s_undoMoves.Push(undoMove);
         }
 
+        /// <summary>
+        /// Undo last move.
+        /// </summary>
         public static void Undo()
         {
             if (s_undoMoves.Count <= 0) return;
@@ -34,6 +40,9 @@
             EventManager.Ins.TriggerEvent(EventKeys.PieceEvents.OnUndoMove);
         }
 
+        /// <summary>
+        /// Clear undo moves stack.
+        /// </summary>
         public static void Clear()
         {
             s_undoMoves.Clear();

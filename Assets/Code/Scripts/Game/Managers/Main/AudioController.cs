@@ -38,21 +38,33 @@
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnEatTapped, PlayEatEffect);
         }
 
+        /// <summary>
+        /// Plays swipe audio effect.
+        /// </summary>
         private void PlaySwipeEffect()
         {
             AudioManager.PlayPool(_swipeEffect);
         }
 
+        /// <summary>
+        /// Plays eat audio effect.
+        /// </summary>
         private void PlayEatEffect()
         {
             AudioManager.PlayPool(_eatEffect);
         }
 
+        /// <summary>
+        /// Plays victory audio effect.
+        /// </summary>
         private void PlayVictoryEffect()
         {
             AudioManager.PlayMain(_victoryEffect);
         }
 
+        /// <summary>
+        /// Plays button audio effect.
+        /// </summary>
         private void PlayButtonEffect()
         {
             AudioManager.PlayMain(_buttonEffect);

@@ -27,6 +27,14 @@
             return new GameContext(gameGrid, mobileInputsManager, levelManager, uiManager);
         }
 
+        /// <summary>
+        /// Creates a new game phase.
+        /// </summary>
+        /// <typeparam name="T">The type of the game phase.</typeparam>
+        /// <param name="phaseKey">The phase key.</param>
+        /// <param name="relatedStateMachine">The related state machine.</param>
+        /// <param name="context">The context.</param>
+        /// <returns>A new game phase.</returns>
         public static T CreateGamePhase<T>(GamePhaseKey phaseKey, StateMachine relatedStateMachine, StateContext context) where T : State<GameContext>
         {
             switch (phaseKey)

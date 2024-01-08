@@ -25,6 +25,7 @@
             SetGridLayoutGroup();
         }
 
+        /// <inheritdoc />
         public void Init(LevelData levelData)
         {
             _levelData = levelData;
@@ -33,6 +34,7 @@
             FillGrid();
         }
 
+        /// <inheritdoc />
         public override void FillGrid()
         {
             for (int y = _levelData.LevelGridSize.y - 1; y >= 0 ; y--)
@@ -51,6 +53,9 @@
             }
         }
 
+        /// <summary>
+        /// Set grid layout group settings.
+        /// </summary>
         private void SetGridLayoutGroup()
         {
             GridLayoutGroup.startCorner = GridLayoutGroup.Corner.LowerLeft;

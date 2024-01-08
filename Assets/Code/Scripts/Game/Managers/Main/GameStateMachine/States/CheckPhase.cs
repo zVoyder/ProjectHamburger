@@ -14,6 +14,7 @@
         {
         }
 
+        /// <inheritdoc/>
         public override void Enter()
         {
 #if UNITY_EDITOR
@@ -25,18 +26,25 @@
                 ChangeState(GamePhaseKey.InputPhase);
         }
 
+        /// <inheritdoc/>
         public override void Exit()
         {
         }
 
+        /// <inheritdoc/>
         public override void FixedProcess()
         {
         }
 
+        /// <inheritdoc/>
         public override void Process()
         {
         }
 
+        /// <summary>
+        /// Checks if there is a stack of pieces on the grid that is in the correct order.
+        /// </summary>
+        /// <returns>True if there is a stack of pieces on the grid that is in the correct order, False otherwise.</returns>
         private bool CheckStacksOnGrid()
         {
             foreach (GameGridTile tile in Context.GameGrid.GridTiles)
@@ -48,6 +56,11 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the stack of pieces on the tile is in the correct order.
+        /// </summary>
+        /// <param name="tile">Tile to check.</param>
+        /// <returns>True if the stack of pieces on the tile is in the correct order, False otherwise.</returns>
         private bool CheckTileStack(GameGridTile tile)
         {
             if (!tile.IsOccupied ||

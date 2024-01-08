@@ -22,16 +22,25 @@
                 transform.Rotate(Vector3.forward, _rotationSpeed * Time.deltaTime);
         }
 
+        /// <summary>
+        /// Resets plate position.
+        /// </summary>
         public void ResetPosition()
         {
             transform.position = OriginalPosition;
         }
 
+        /// <summary>
+        /// Starts rotating plate.
+        /// </summary>
         public void StartRotating()
         {
             _isRotating = true;
         }
 
+        /// <summary>
+        /// Stops rotating plate.
+        /// </summary>
         public void StopRotating()
         {
             _isRotating = false;

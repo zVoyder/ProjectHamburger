@@ -14,6 +14,7 @@ namespace ProjectH.Managers.Main.GameStateMachine.States
         {
         }
 
+        /// <inheritdoc/>
         public override void Enter()
         {
 #if UNITY_EDITOR
@@ -24,14 +25,17 @@ namespace ProjectH.Managers.Main.GameStateMachine.States
             ChangeState(GamePhaseKey.InputPhase);
         }
 
+        /// <inheritdoc/>
         public override void Exit()
         {
         }
 
+        /// <inheritdoc/>
         public override void FixedProcess()
         {
         }
 
+        /// <inheritdoc/>
         public override void Process()
         {
         }

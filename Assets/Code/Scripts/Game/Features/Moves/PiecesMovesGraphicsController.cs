@@ -45,6 +45,12 @@
                 ProcessRotationAnimation();
         }
 
+        /// <summary>
+        /// Animate piece move.
+        /// </summary>
+        /// <param name="piece">Piece to move.</param>
+        /// <param name="toTile">Tile to move to.</param>
+        /// <param name="direction">Direction to move.</param>
         public void AnimateMovePiece(Piece piece, GameGridTile toTile, Vector2Direction direction)
         {
             _pieceToRotate = piece;
@@ -75,6 +81,10 @@
             _moveTask.Start();
         }
 
+        /// <summary>
+        /// Animate undo move.
+        /// </summary>
+        /// <param name="undoMove">Undo move to animate.</param>
         public void AnimateUndoMove(UndoMove undoMove)
         {
             _pieceToRotate = undoMove.UndoPiece;
@@ -86,31 +96,49 @@
             _moveTask.Start();
         }
 
+        /// <summary>
+        /// Calculate right pivot point rotation.
+        /// </summary>
         private void CalculateRotationRight()
         {
-            _rotationPoint = _targetTile.GetWestPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateTotalHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
+            _rotationPoint = _targetTile.GetWestPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateRotationPointHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
             _axisRotation = -Vector3.forward;
         }
 
+        /// <summary>
+        /// Calculate left pivot point rotation.
+        /// </summary>
         private void CalculateRotationLeft()
         {
-            _rotationPoint = _targetTile.GetEastPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateTotalHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
+            _rotationPoint = _targetTile.GetEastPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateRotationPointHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
             _axisRotation = Vector3.forward;
         }
 
+        /// <summary>
+        /// Calculate up pivot point rotation.
+        /// </summary>
         private void CalculateRotationUp()
         {
-            _rotationPoint = _targetTile.GetSouthPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateTotalHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
+            _rotationPoint = _targetTile.GetSouthPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateRotationPointHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
             _axisRotation = Vector3.right;
         }
 
+        /// <summary>
+        /// Calculate down pivot point rotation.
+        /// </summary>
         private void CalculateRotationDown()
         {
-            _rotationPoint = _targetTile.GetNorthPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateTotalHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
+            _rotationPoint = _targetTile.GetNorthPosition(new Vector3(0, -_pieceSpacing, 0)) + Vector3.up * CalculateRotationPointHeight(_pieceToRotate.CurrentTile.Stack, _targetTile.Stack);
             _axisRotation = -Vector3.right;
         }
 
-        private float CalculateTotalHeight(List<Piece> firstStack, List<Piece> secondStack)
+        /// <summary>
+        /// Calculate rotation point height.
+        /// </summary>
+        /// <param name="firstStack">First stack.</param>
+        /// <param name="secondStack">Second stack.</param>
+        /// <returns>Rotation point height.</returns>
+        private float CalculateRotationPointHeight(List<Piece> firstStack, List<Piece> secondStack)
         {
             float lowestCount = Mathf.Min(firstStack.Count, secondStack.Count);
             float difference = Mathf.Abs(firstStack.Count - secondStack.Count);
@@ -119,11 +147,17 @@
             return totalHeight;
         }
 
+        /// <summary>
+        /// Process rotation animation.
+        /// </summary>
         private void ProcessRotationAnimation()
         {
             _pieceToRotate.transform.RotateAround(_rotationPoint, _axisRotation, _stepAngle * Time.deltaTime);
         }
 
+        /// <summary>
+        /// On animation completed.
+        /// </summary>
         private void OnAnimationCompleted()
         {
             AdjustPiecePosition();
@@ -131,6 +165,9 @@
             EventManager.Ins.TriggerEvent(EventKeys.PieceEvents.OnMoveAnimationCompleted);
         }
 
+        /// <summary>
+        /// Adjusts piece position.
+        /// </summary>
         private void AdjustPiecePosition()
         {
             _pieceToRotate.transform.rotation = QuaternionExtensions.RoundToFundamentalAngles(_pieceToRotate.transform.rotation);
@@ -138,12 +175,10 @@
             {
                 Vector3 offset = Vector3.up * (PieceHeight * (_targetTile.StackCount + _pieceToRotate.CurrentTile.StackCount - 1));
                 _pieceToRotate.transform.position = _targetTile.transform.position + offset;
-                //_pieceToRotate.transform.SetParent(_targetTile.TopPiece.transform);
             }
             else
             {
                 _pieceToRotate.transform.position = _targetTile.transform.position;
-                //_pieceToRotate.transform.SetParent(_targetTile.transform);
             }
         }
 

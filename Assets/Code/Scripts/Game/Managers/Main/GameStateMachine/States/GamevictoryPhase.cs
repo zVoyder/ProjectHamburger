@@ -13,6 +13,7 @@
         {
         }
 
+        /// <inheritdoc/>
         public override void Enter()
         {
 #if UNITY_EDITOR
@@ -21,14 +22,17 @@
             EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnGameVictory);
         }
 
+        /// <inheritdoc/>
         public override void Exit()
         {
         }
 
+        /// <inheritdoc/>
         public override void FixedProcess()
         {
         }
 
+        /// <inheritdoc/>
         public override void Process()
         {
         }

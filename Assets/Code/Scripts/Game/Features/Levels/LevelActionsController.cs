@@ -16,11 +16,6 @@
 
         private bool IsLoadingLevel => _gameManager.LevelManager.IsLoadingLevel;
 
-        public void Init(GameManager gameManager)
-        {
-            _gameManager = gameManager;
-        }
-
         private void OnEnable()
         {
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnEatPhaseFadeInEnd, LoadLevel);
@@ -31,11 +26,21 @@
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnEatPhaseFadeInEnd, LoadLevel);
         }
 
+        /// <inheritdoc/>
+        public void Init(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+
+        /// <inheritdoc/>
         public bool Check()
         {
             return _gameManager != null;
         }
 
+        /// <summary>
+        /// Triggers the loading of the next level.
+        /// </summary>
         public void TriggerNextLevel()
         {
             if (!IsLoadingLevel && GameMachine.IsState(GamePhaseKey.GamevictoryPhase))
@@ -46,6 +51,9 @@
             }
         }
 
+        /// <summary>
+        /// Skip the current level and triggers the loading of the next level.
+        /// </summary>
         public void TriggerSkipLevel()
         {
             if (!IsLoadingLevel && GameMachine.IsState(GamePhaseKey.InputPhase))
@@ -55,11 +63,17 @@
             }
         }
 
+        /// <summary>
+        /// Triggers the undo of the last move.
+        /// </summary>
         public void TriggerUndo()
         {
             UndoController.Undo();
         }
 
+        /// <summary>
+        /// Triggers the reset of the current level.
+        /// </summary>
         public void TriggerResetLevel()
         {
             if (!GameMachine.IsState(GamePhaseKey.InputPhase)) return;
@@ -68,6 +82,9 @@
             GameMachine.ChangeState(GamePhaseKey.PlacementPhase);
         }
 
+        /// <summary>
+        /// Loads the current level.
+        /// </summary>
         private void LoadLevel()
         {
             GameMachine.ChangeState(GamePhaseKey.PlacementPhase);
