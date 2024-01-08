@@ -16,13 +16,13 @@
         public LevelManager LevelManager { get; private set; }
 
         [field: SerializeField, Header("Level Controller")]
-        public LevelController LevelController { get; private set; }
+        public LevelActionsController LevelController { get; private set; }
 
         [field: SerializeField, Header("Game Grid")]
         public GameGrid GameGrid { get; private set; }
 
         [field: SerializeField, Header("Animation Controller")]
-        public PiecesMoveAnimationController AnimationController { get; private set; }
+        public PiecesMovesGraphicsController AnimationController { get; private set; }
 
         [field: SerializeField, Header("Victory Animation Controller")]
         public VictoryAnimationController VictoryAnimationController { get; private set; }
@@ -43,6 +43,7 @@
                 return;
             }
 
+            LevelManager.Init(this);
             LevelController.Init(this);
             GameMachine.Init(GameGrid, MobileInputsManager.Ins, LevelManager);
         }

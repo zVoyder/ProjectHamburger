@@ -14,7 +14,7 @@
     public class VictoryAnimationController : MonoBehaviour, ICastGameManager<GameManager>
     {
         [SerializeField]
-        private Plate _plate;
+        private VictoryPlate _plate;
         [SerializeField]
         private Vector3 _cameraOffsetPosition;
         [SerializeField]
@@ -23,34 +23,37 @@
         private DelayTask _moveTask;
 
         private Transform _target;
-        private CameraFade _cameraFade;
         private Vector3 _originalCameraPosition;
         private Quaternion _originalCameraRotation;
 
         public GameManager GameManager => MainManager.Ins.GameManager as GameManager;
         private Camera Camera => MainManager.Ins.GameStats.MainCamera;
+        public CameraFade CameraFade { get; private set; }
 
         private void Awake()
         {
             _originalCameraPosition = Camera.transform.position;
             _originalCameraRotation = Camera.transform.rotation;
-            Camera.TryGetComponent(out _cameraFade);
+            Camera.TryGetComponent(out CameraFade fade);
+            CameraFade = fade;
         }
 
         private void OnEnable()
         {
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameVictory, AnimateVictory);
-            EventManager.Ins.AddListener(EventKeys.GameEvents.OnNextLevel, FadeAndReset);
+            EventManager.Ins.AddListener(EventKeys.GameEvents.OnNextLevelTriggered, FadeAndReset);
             _moveTask.OnTaskCompleted += OnMoveTaskCompleted;
-            _cameraFade.OnFadeInEnd += OnLevelCompletedFade;
+            //_cameraFade.OnFadeInStart += OnFadeInStart;
+            CameraFade.OnFadeInEnd += OnFadeInEnd;
         }
 
         private void OnDisable()
         {
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameVictory, AnimateVictory);
-            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnNextLevel, FadeAndReset);
+            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnNextLevelTriggered, FadeAndReset);
             _moveTask.OnTaskCompleted -= OnMoveTaskCompleted;
-            _cameraFade.OnFadeInEnd -= OnLevelCompletedFade;
+            //_cameraFade.OnFadeInStart -= OnFadeInStart;
+            CameraFade.OnFadeInEnd -= OnFadeInEnd;
         }
 
         private void Update()
@@ -59,7 +62,7 @@
 
             _plate.transform.position = Vector3.Lerp(_plate.OriginalPosition, _target.position + _plateOffsetPosition, _moveTask.ElapsedPercentPrecise);
             Camera.transform.position = Vector3.Lerp(_originalCameraPosition, _target.position + _cameraOffsetPosition, _moveTask.ElapsedPercentPrecise);
-            Camera.transform.LookAtLerp(_target, _moveTask.ElapsedPercentNormalized);
+            Camera.transform.LookAtLerp(_originalCameraRotation, _target, _moveTask.ElapsedPercentNormalized);
         }
 
         private void AnimateVictory()
@@ -72,21 +75,27 @@
         {
             _plate.StartRotating();
             _target.transform.SetParent(_plate.transform);
-            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnLevelCompleted);
+            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhase);
         }
 
         private void FadeAndReset()
         {
-            _cameraFade.DoFadeInOut();
+            CameraFade.DoFadeInOut();
         }
 
-        private void OnLevelCompletedFade()
+        //private void OnFadeInStart()
+        //{
+        //    EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhaseFadeInStart);
+        //}
+
+        private void OnFadeInEnd()
         {
             _plate.StopRotating();
             _plate.ResetPosition();
             Camera.transform.position = _originalCameraPosition;
             Camera.transform.rotation = _originalCameraRotation;
-            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnLevelCompletedFade);
+            Debug.Log("Triggered OnFadeInEnd");
+            EventManager.Ins.TriggerEvent(EventKeys.GameEvents.OnEatPhaseFadeInEnd);
         }
     }
 }

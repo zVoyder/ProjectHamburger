@@ -6,12 +6,19 @@
     using ProjectH.Features.Grid.Pieces;
     using VUDK.Features.Main.EventSystem;
     using ProjectH.Constants;
+    using VUDK.Patterns.Initialization.Interfaces;
+    using System;
+    using ProjectH.Managers.Main;
 
-    public class LevelManager : MonoBehaviour
+    public class LevelManager : MonoBehaviour, IInit<GameManager>
     {
         [Header("Levels")]
         [SerializeField]
         private LevelsMapData _levelsMapData;
+
+        private GameManager _gameManager;
+
+        public bool IsLoadingLevel => _gameManager.VictoryAnimationController.CameraFade.IsFading;
 
         public int CurrentLevelIndex { get; private set; }
         public List<Piece> CurrentPieces { get; private set; }
@@ -30,6 +37,16 @@
         private void OnDisable()
         {
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameBegin, ClearPieces);
+        }
+
+        public void Init(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
+
+        public bool Check()
+        {
+            return _gameManager != null;
         }
 
         public LevelData GetCurrentLevelData()

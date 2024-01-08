@@ -11,14 +11,14 @@
         [field: SerializeField]
         public PieceType PieceType { get; private set; }
 
-        private PieceGraphicsController _graphicsController;
-
+        public PieceGraphicsController GraphicsController { get; private set; }
         public GameGridTile CurrentTile { get; private set; }
 
         private void Awake()
         {
-            TryGetComponent(out _graphicsController);
-            _graphicsController.Init(this);
+            TryGetComponent(out PieceGraphicsController graphicsController);
+            GraphicsController = graphicsController;
+            GraphicsController.Init(this);
         }
 
         public void SetTile(GameGridTile tile)
@@ -28,13 +28,27 @@
 
         public void PlaceInTile(GameGridTile tile)
         {
-            _graphicsController.PlayPlacedAnimation();
+            GraphicsController.PlayPlacedAnimation();
             SetTile(tile);
+        }
+
+        public void StackOnTile(GameGridTile tile)
+        {
+            if(tile.StackCount > 0)
+            {
+                transform.SetParent(tile.TopPiece.transform);
+                CurrentTile.TopPiece.GraphicsController.PlayStackedEffect();
+            }
+            else
+            {
+                GraphicsController.PlayStackedEffect();
+                transform.SetParent(tile.transform);
+            }
         }
 
         public void CantMove(Vector2Direction direction)
         {
-            _graphicsController.PlayCantMove(direction);
+            GraphicsController.PlayCantMove(direction);
         }
 
         public override void Clear()

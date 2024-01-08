@@ -11,9 +11,9 @@
     {
         private static GameManager s_gameManager => MainManager.Ins.GameManager as GameManager;
         private static GameGridTile[,] s_gridTiles => s_gameManager.GameGrid.GridTiles;
-        private static PiecesMoveAnimationController s_animController => s_gameManager.AnimationController;
+        private static PiecesMovesGraphicsController s_animController => s_gameManager.AnimationController;
 
-        public static void InsertStackInTile(List<Piece> oldStack, GameGridTile oldTile, GameGridTile newTile)
+        public static void InsertStackInTile(List<Piece> oldStack, Piece piece, GameGridTile oldTile, GameGridTile newTile)
         {
             List<Piece> reversedStack = new List<Piece>(oldStack);
             reversedStack.Reverse();
@@ -21,6 +21,7 @@
             foreach (Piece p in reversedStack)
                 p.PlaceInTile(newTile);
 
+            piece.StackOnTile(newTile);
             newTile.AddToStack(reversedStack);
             oldTile.RemoveFromStack(reversedStack); // Do not use ClearStack() because it's not correct for Undo
         }

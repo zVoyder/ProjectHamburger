@@ -10,7 +10,7 @@
     public static class UndoController
     {
         private static GameManager s_gameManager => MainManager.Ins.GameManager as GameManager;
-        private static PiecesMoveAnimationController s_animController => s_gameManager.AnimationController;
+        private static PiecesMovesGraphicsController s_animController => s_gameManager.AnimationController;
 
         private static readonly Stack<UndoMove> s_undoMoves = new Stack<UndoMove>();
 

@@ -11,11 +11,11 @@
         /// <param name="self"></param>
         /// <param name="target">Target transform.</param>
         /// <param name="t">Lerping value.</param>
-        public static void LookAtLerp(this Transform self, Transform target, float t)
+        public static void LookAtLerp(this Transform self, Quaternion startRotation, Transform target, float t)
         {
             Vector3 relativePos = target.position - self.position;
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
-            self.rotation = Quaternion.Lerp(self.rotation, toRotation, t);
+            self.rotation = Quaternion.Lerp(startRotation, toRotation, t);
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿namespace VUDK.Extensions
 {
     using UnityEngine;
+    using VUDK.Features.Main.AudioSystem;
     using VUDK.Features.Main.AudioSystem.AudioObjects;
 
     public static class AudioExtension
@@ -15,6 +16,17 @@
             AudioSFX sfx = AudioSFX.Create(clip);
             sfx.PlayAtPosition(position);
             return sfx;
+        }
+
+        public static AudioSource SetAudioSourceSettings(this AudioSource source, AudioSourceSettings sourceSettings)
+        {
+            source.clip = sourceSettings.Clip;
+            source.volume = sourceSettings.Volume;
+            source.pitch = Random.Range(sourceSettings.MinPitch, sourceSettings.MaxPitch);
+            source.loop = sourceSettings.Loop;
+            source.spatialBlend = sourceSettings.SpatialBlend;
+            source.outputAudioMixerGroup = sourceSettings.OutputAudioMixerGroup;
+            return source;
         }
     }
 }

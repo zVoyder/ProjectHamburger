@@ -5,10 +5,15 @@
     using VUDK.Patterns.Initialization.Interfaces;
     using VUDK.Extensions;
     using System;
+    using VUDK.Features.Main.ScriptableKeys;
 
     [RequireComponent(typeof(Animator))]
     public class PieceGraphicsController : MonoBehaviour, IInit<Piece>
     {
+        [Header("Effects")]
+        [SerializeField]
+        private ParticleSystem _stackedEffect;
+
         private Piece _piece;
         private Animator _anim;
 
@@ -54,6 +59,11 @@
             _anim.SetTrigger(Constants.PieceAnimations.PlaceTrigger);
         }
 
+        public void PlayStackedEffect()
+        {
+            _stackedEffect.Play();
+        }
+
         private void PlayCantMoveUp()
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveUp);
@@ -73,5 +83,7 @@
         {
             _anim.SetInteger(Constants.PieceAnimations.CantMoveState, Constants.PieceAnimations.CantMoveLeft);
         }
+
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace VUDK.Features.Main.AudioSystem
 {
     using UnityEngine;
+    using UnityEngine.Audio;
     using VUDK.Extensions;
     using VUDK.Features.Main.AudioSystem.AudioObjects;
     using VUDK.Features.Main.ScriptableKeys;
@@ -15,6 +16,9 @@
         [field: SerializeField]
         private AudioSource _mainEffect;
 
+        [SerializeField, Header("Mixer Groups")]
+        private AudioMixerGroup _effectMixerGroup;
+
         private AudioPool _stereoPool;
 
         [field: SerializeField, Header("Pooling Settings")]
@@ -25,14 +29,34 @@
             TryGetComponent(out _stereoPool);
         }
 
+        public void ToggleAudioListener()
+        {
+            SetPauseAudioListener(!AudioListener.pause);
+        }
+
+        public void SetPauseAudioListener(bool isPaused)
+        {
+            AudioListener.pause = isPaused;
+        }
+
+        public void EanbleAudio()
+        {
+            SetPauseAudioListener(true);
+        }
+
+        public void DisableAudio()
+        {
+            SetPauseAudioListener(false);
+        }
+
         /// <summary>
         /// Plays the specified audio clip at a specified 3D position in the scene.
         /// </summary>
         /// <param name="clip">The AudioClip to be played spatially.</param>
         /// <param name="position">The 3D position in the scene where the audio should be played.</param>
-        public void PlaySpatial(AudioClip clip, Vector3 position)
+        public AudioSFX PlaySpatial(AudioClip clip, Vector3 position)
         {
-            AudioExtension.PlayClipAtPoint(clip, position);
+            return AudioExtension.PlayClipAtPoint(clip, position);
         }
 
         /// <summary>
@@ -48,6 +72,14 @@
                 PlayMain(clip);
         }
 
+        public void PlayStereo(AudioSourceSettings sourceSettings, bool isConcurrent = false)
+        {
+            if (isConcurrent)
+                PlayPool(sourceSettings);
+            else
+                PlayMain(sourceSettings);
+        }
+
         /// <summary>
         /// Plays the specified audio clip source from the audio stereo pool.
         /// </summary>
@@ -55,7 +87,14 @@
         /// <param name="pitchVariation">Optional pitch variation range.</param>
         public void PlayPool(AudioClip clip, Range<float> pitchVariation = null)
         {
-            _stereoPool.Play(clip, pitchVariation);
+            AudioSource ac = _stereoPool.Play(clip, pitchVariation);
+            ac.outputAudioMixerGroup = _effectMixerGroup;
+        }
+
+        public void PlayPool(AudioSourceSettings sourceSettings)
+        {
+            AudioSource ac = _stereoPool.Play(sourceSettings);
+            ac.outputAudioMixerGroup = _effectMixerGroup;
         }
 
         /// <summary>
@@ -66,6 +105,21 @@
         public void PlayMain(AudioClip clip, Range<float> pitchVariation = null)
         {
             PlayAudio(_mainEffect, clip, pitchVariation);
+        }
+
+        public void PlayMain(AudioSourceSettings sourceSettings, Range<float> pitchVariation = null)
+        {
+            PlayAudio(_mainEffect, sourceSettings, pitchVariation);
+        }
+
+        /// <summary>
+        /// Plays the specified audio clip as the main music.
+        /// </summary>
+        /// <param name="clip">The AudioClip to be played as the main music.</param>
+        public void PlayMusic(AudioClip clip)
+        {
+            _mainMusic.clip = clip;
+            _mainMusic.Play();
         }
 
         /// <summary>
@@ -81,6 +135,16 @@
                 source.pitch = pitchVariation.Random();
 
             source.clip = clip;
+            source.Play();
+        }
+
+        private void PlayAudio(AudioSource source, AudioSourceSettings sourceSettings, Range<float> pitchVariation = null)
+        {
+            source.SetAudioSourceSettings(sourceSettings);
+
+            if (pitchVariation != null)
+                source.pitch = pitchVariation.Random();
+
             source.Play();
         }
     }

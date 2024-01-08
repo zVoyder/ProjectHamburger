@@ -2,63 +2,69 @@
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using VUDK.Features.Main.AudioSystem.AudioObjects.Interfaces;
+    using VUDK.Extensions;
     using VUDK.Generic.Serializable;
 
-    public class AudioPool : MonoBehaviour, IAudioObject
+    public class AudioPool : MonoBehaviour
     {
         [SerializeField]
         private List<AudioSource> _sources;
 
-        private AudioSource _currentSource;
-        private AudioClip _clip;
-
         private void OnValidate()
         {
-            if (_sources == null) _sources = new List<AudioSource>();
-        }
-
-        /// <inheritdoc/>
-        public void SetClip(AudioClip clip)
-        {
-            _clip = clip;
+            if (_sources == null)
+                _sources = new List<AudioSource>();
         }
 
         /// <summary>
         /// Plays the currently set audio clip using an available AudioSource.
         /// If no free AudioSource is found, a new one is created.
         /// </summary>
-        public void Play()
+        public AudioSource Play(AudioClip clip, Range<float> pitchVariation = null)
         {
-            if (TryFindFreeAudioSource(out AudioSource foundSource))
-                _currentSource = foundSource;
-            else
-            {
-                AddSource();
-            }
+            AudioSource source = GetAvailableSource();
 
-            _currentSource.clip = _clip;
-            _currentSource.Play();
+            if (pitchVariation != null)
+                source.pitch = pitchVariation.Random();
+
+            source.clip = clip;
+            source.Play();
+
+            return source;
         }
 
-        /// <inheritdoc/>
-        public void Stop()
+        public AudioSource Play(AudioSourceSettings settings)
         {
-            _currentSource.Stop();
+            AudioSource source = GetAvailableSource();
+            source.SetAudioSourceSettings(settings);
+            source.Play();
+
+            return source;
         }
 
         /// <summary>
-        /// Sets the specified audio clip, plays it, and applies optional pitch variation.
+        /// Stops all playing audio sources.
         /// </summary>
-        /// <param name="clip">The AudioClip to be played.</param>
-        /// <param name="pitchVariation">Optional pitch variation range.</param>
-        public void Play(AudioClip clip, Range<float> pitchVariation = null)
+        public void Stop()
         {
-            SetClip(clip);
-            Play();
+            foreach (AudioSource source in _sources)
+                source.Stop();
+        }
 
-            if (pitchVariation != null)
-                _currentSource.pitch = pitchVariation.Random();
+        public AudioSource AddSource()
+        {
+            AudioSource source = gameObject.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            _sources.Add(source);
+            return source;
+        }
+
+        private AudioSource GetAvailableSource()
+        {
+            if (TryFindFreeAudioSource(out AudioSource audio))
+                return audio;
+
+            return AddSource();
         }
 
         /// <summary>
@@ -81,14 +87,8 @@
             return false;
         }
 
-        public void AddSource()
-        {
-            AudioSource source = gameObject.AddComponent<AudioSource>();
-            source.playOnAwake = false;
-            _sources.Add(source);
-        }
-
 #if UNITY_EDITOR
+
         public void Reset()
         {
             foreach (AudioSource source in GetComponents<AudioSource>())
@@ -98,7 +98,7 @@
 
         public void RemoveSource()
         {
-            if(TryGetComponent(out AudioSource source))
+            if (TryGetComponent(out AudioSource source))
             {
                 _sources.Remove(source);
                 DestroyImmediate(source);
@@ -109,6 +109,7 @@
         {
             public static string SourcesProperty => nameof(_sources);
         }
+
 #endif
     }
 }

@@ -27,14 +27,15 @@
 
         private void OnEnable()
         {
-            EventManager.Ins.AddListener(EventKeys.GameEvents.OnLevelCompleted, EnableLevelCompletedPanel);
+            EventManager.Ins.AddListener(EventKeys.GameEvents.OnEatPhase, EnableLevelCompletedPanel);
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameVictory, DisableBottomInGameMenu);
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameBegin, OnGameBegin);
+            //EventManager.Ins.AddListener(EventKeys.GameEvents.OnEa, DisableLevelCompletedPanel);
         }
 
         private void OnDisable()
         {
-            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnLevelCompleted, EnableLevelCompletedPanel);
+            EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnEatPhase, EnableLevelCompletedPanel);
             EventManager.Ins.AddListener(EventKeys.GameEvents.OnGameVictory, DisableBottomInGameMenu);
             EventManager.Ins.RemoveListener(EventKeys.GameEvents.OnGameBegin, OnGameBegin);
         }
